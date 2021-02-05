@@ -1,5 +1,5 @@
 // GUI and main program for the Training Record
-package com.stir.cscu9t4practical1;
+//package com.stir.cscu9t4practical1;
 
 import java.awt.*;
 import java.awt.event.*;
@@ -27,6 +27,7 @@ public class TrainingRecordGUI extends JFrame implements ActionListener {
     private JLabel labdist = new JLabel(" Distance (km):");
     private JButton addR = new JButton("Add");
     private JButton lookUpByDate = new JButton("Look Up");
+    private JButton FindAllByDate = new JButton("Find all by date");
 
     private TrainingRecord myAthletes = new TrainingRecord();
 
@@ -68,6 +69,8 @@ public class TrainingRecordGUI extends JFrame implements ActionListener {
         addR.addActionListener(this);
         add(lookUpByDate);
         lookUpByDate.addActionListener(this);
+        add(FindAllByDate);
+        FindAllByDate.addActionListener(this);
         add(outputArea);
         outputArea.setEditable(false);
         setSize(720, 200);
@@ -88,23 +91,64 @@ public class TrainingRecordGUI extends JFrame implements ActionListener {
         if (event.getSource() == lookUpByDate) {
             message = lookupEntry();
         }
+        //Adding functionality to FindAllByDate
+        if (event.getSource() == FindAllByDate)
+        {
+        	message = FindAllByDate();
+        }
         outputArea.setText(message);
         blankDisplay();
     } // actionPerformed
 
+    public Boolean isValidNumber(String temp)
+    {
+    	boolean num = true;
+    	try {
+            Double tempNum = Double.parseDouble(temp);
+        } catch (NumberFormatException e) {
+            num = false;
+        }
+    	return num;
+    }
+    
+    //UPDATE: 
     public String addEntry(String what) {
         String message = "Record added\n";
         System.out.println("Adding "+what+" entry to the records");
         String n = name.getText();
-        int m = Integer.parseInt(month.getText());
-        int d = Integer.parseInt(day.getText());
-        int y = Integer.parseInt(year.getText());
-        float km = java.lang.Float.parseFloat(dist.getText());
-        int h = Integer.parseInt(hours.getText());
-        int mm = Integer.parseInt(mins.getText());
-        int s = Integer.parseInt(secs.getText());
-        Entry e = new Entry(n, d, m, y, h, mm, s, km);
-        myAthletes.addEntry(e);
+        int m;
+        int d;
+        int y;
+        float km;
+        int h;
+        int mm;
+        int s;
+        if(isValidNumber(month.getText()) && isValidNumber(day.getText()) && isValidNumber(year.getText()) 
+        		&& isValidNumber(dist.getText()) && isValidNumber(dist.getText()) 
+        		&& isValidNumber(hours.getText()) && isValidNumber(mins.getText()) 
+        		&& isValidNumber(secs.getText()))
+        {
+        	m = Integer.parseInt(month.getText());
+            d = Integer.parseInt(day.getText());
+            y = Integer.parseInt(year.getText());
+            km = java.lang.Float.parseFloat(dist.getText());
+            h = Integer.parseInt(hours.getText());
+            mm = Integer.parseInt(mins.getText());
+            s = Integer.parseInt(secs.getText());
+            if(!myAthletes.checkValidEntry(d,m,y,n))
+            {
+            	Entry e = new Entry(n, d, m, y, h, mm, s, km);
+            	myAthletes.addEntry(e);
+            }
+            else 
+            {
+            	message = "invalid details date,time or distance format wrong or this entry has already been recorded";
+            }
+        }
+        else
+        {
+        	message = "invalid details date,time or distance format wrong or this entry has already been recorded";
+        }
         return message;
     }
     
@@ -116,6 +160,14 @@ public class TrainingRecordGUI extends JFrame implements ActionListener {
         String message = myAthletes.lookupEntry(d, m, y);
         return message;
     }
+    
+    //UPDATE: find all by date functionality
+    public String FindAllByDate() 
+    {
+    	String message = myAthletes.AllEntries();
+    	return message;
+    }
+    
 
     public void blankDisplay() {
         name.setText("");

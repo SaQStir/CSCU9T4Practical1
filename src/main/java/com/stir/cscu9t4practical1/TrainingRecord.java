@@ -1,5 +1,5 @@
 // An implementation of a Training Record as an ArrayList
-package com.stir.cscu9t4practical1;
+//package com.stir.cscu9t4practical1;
 
 
 
@@ -22,14 +22,55 @@ public class TrainingRecord {
    // look up the entry of a given day and month
    public String lookupEntry (int d, int m, int y) {
        ListIterator<Entry> iter = tr.listIterator();
-       String result = "No entries found";
-       while (iter.hasNext()) {
+       String result = "";
+       while (iter.hasNext()) 
+       {
           Entry current = iter.next();
+          //UPDATE:Now adding to string result if additional entries found on same day
           if (current.getDay()==d && current.getMonth()==m && current.getYear()==y) 
-             result = current.getEntry();
-            }
+             result = result + "\n" + current.getEntry(); 
+          //UPDATE:if !result result = "No entries found"
+       }	
+       	  if (result == "")
+       	  {
+       		  result = "No entries found"; 
+       	  }
        return result;
    } // lookupEntry
+   
+   //UPDATE: used to check if entry is already input Challenge 4
+   //checking if entry is already existant in database
+   public boolean checkValidEntry(int d, int m, int y, String n) {
+       ListIterator<Entry> iter = tr.listIterator();
+       boolean result = false;
+       while (iter.hasNext()) 
+       {
+          Entry current = iter.next();
+          if (current.getDay()==d && current.getMonth()==m && current.getYear()==y && current.getName() == n) 
+          {
+        	  result = true;
+          }  
+       }
+       return result;
+   } // checkValidEntry
+       
+    //UPDATE:return all previously entered entries
+   public String AllEntries()
+   {
+	   ListIterator<Entry> iter = tr.listIterator();
+	   String list = "";
+	   while (iter.hasNext())
+	   {
+		   Entry current = iter.next();
+		   list = list + "\n" + current.getEntry();
+	   }
+	   if(list == "")
+	   {
+		   list = "No entries found";
+	   }
+	   return list;
+   }
+   // FindAllByDate
    
    // Count the number of entries
    public int getNumberOfEntries(){

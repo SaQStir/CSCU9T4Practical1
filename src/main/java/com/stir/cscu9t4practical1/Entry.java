@@ -1,5 +1,5 @@
 // This class holds information about a single training session
-package com.stir.cscu9t4practical1;
+//package com.stir.cscu9t4practical1;
 
 import java.util.Calendar;
 public class Entry {
