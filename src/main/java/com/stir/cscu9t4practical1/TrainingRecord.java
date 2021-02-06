@@ -42,13 +42,14 @@ public class TrainingRecord {
    //checking if entry is already existant in database
    public boolean checkValidEntry(int d, int m, int y, String n) {
        ListIterator<Entry> iter = tr.listIterator();
-       boolean result = false;
+       boolean result = true;
        while (iter.hasNext()) 
        {
-          Entry current = iter.next();
-          if (current.getDay()==d && current.getMonth()==m && current.getYear()==y && current.getName() == n) 
+          Entry current = iter.next();   
+          
+          if (current.getDay()==d && current.getMonth()==m && current.getYear()==y && current.getName().equals(n)) 
           {
-        	  result = true;
+        	  result = false;
           }  
        }
        return result;

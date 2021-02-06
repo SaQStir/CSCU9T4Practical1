@@ -135,19 +135,20 @@ public class TrainingRecordGUI extends JFrame implements ActionListener {
             h = Integer.parseInt(hours.getText());
             mm = Integer.parseInt(mins.getText());
             s = Integer.parseInt(secs.getText());
-            if(!myAthletes.checkValidEntry(d,m,y,n))
+            
+            if(myAthletes.checkValidEntry(d,m,y,n))
             {
             	Entry e = new Entry(n, d, m, y, h, mm, s, km);
             	myAthletes.addEntry(e);
             }
             else 
             {
-            	message = "invalid details date,time or distance format wrong or this entry has already been recorded";
+            	message = "this entry has already been recorded";
             }
         }
         else
         {
-        	message = "invalid details date,time or distance format wrong or this entry has already been recorded";
+        	message = "invalid details date,time or distance format please use valid numbers";
         }
         return message;
     }
