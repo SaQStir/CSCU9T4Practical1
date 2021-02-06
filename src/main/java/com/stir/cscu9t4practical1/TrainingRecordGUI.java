@@ -57,28 +57,51 @@ public class TrainingRecordGUI extends JFrame implements ActionListener {
     // set up the GUI 
     public TrainingRecordGUI() {
         super("Training Record");
-        setLayout(new FlowLayout());
+        getContentPane().setBackground(Color.LIGHT_GRAY);
+        getContentPane().setLayout(null);
+        labac.setBounds(12, 13, 49, 16);
         
-        add(labac);
-        add(labn);
-        add(labd);
-        add(labm);
-        add(laby);
-        add(labh);
-        add(labmm);
-        add(labs);
-        add(labdist);
+        getContentPane().add(labac);
+        labn.setBounds(152, 13, 42, 16);
+        getContentPane().add(labn);
+        labd.setBounds(12, 57, 30, 16);
+        getContentPane().add(labd);
+        labm.setBounds(75, 57, 44, 16);
+        getContentPane().add(labm);
+        laby.setBounds(152, 57, 35, 16);
+        getContentPane().add(laby);
+        labh.setBounds(12, 86, 42, 16);
+        getContentPane().add(labh);
+        labmm.setBounds(85, 86, 35, 16);
+        getContentPane().add(labmm);
+        labs.setBounds(152, 86, 36, 16);
+        getContentPane().add(labs);
+        labdist.setBounds(12, 118, 88, 16);
+        getContentPane().add(labdist);
+        name.setBounds(196, 10, 164, 22);
         
-        add(name);
-        add(day);
-        add(month);
-        add(year);
-        add(hours);
-        add(mins);
-        add(secs);
-        add(dist);
-        add(addR);
-        add(lookUpByDate);
+        getContentPane().add(name);
+        day.setBounds(45, 54, 28, 22);
+        getContentPane().add(day);
+        month.setBounds(120, 54, 28, 22);
+        getContentPane().add(month);
+        year.setBounds(188, 54, 50, 22);
+        getContentPane().add(year);
+        hours.setBounds(55, 83, 28, 22);
+        getContentPane().add(hours);
+        mins.setBounds(120, 83, 28, 22);
+        getContentPane().add(mins);
+        secs.setBounds(194, 83, 28, 22);
+        getContentPane().add(secs);
+        dist.setBounds(100, 115, 50, 22);
+        getContentPane().add(dist);
+        addR.setBounds(45, 254, 74, 25);
+        getContentPane().add(addR);
+        lookUpByDate.setBounds(150, 254, 88, 25);
+        getContentPane().add(lookUpByDate);
+        FindAllByDate.setSize(119, 25);
+        FindAllByDate.setLocation(327, 254);
+        getContentPane().add(FindAllByDate);
         
         name.setEditable(true);
         day.setEditable(true);
@@ -88,41 +111,54 @@ public class TrainingRecordGUI extends JFrame implements ActionListener {
         mins.setEditable(true);
         secs.setEditable(true);
         dist.setEditable(true);
+        activitiesList.setBounds(65, 10, 70, 22);
         
-        add(activitiesList);
+        getContentPane().add(activitiesList);
+        labter.setBounds(302, 86, 51, 16);
         
         getContentPane().add(labter);
+        labtem.setBounds(302, 57, 49, 16);
         getContentPane().add(labtem);
+        labloc.setBounds(302, 57, 53, 16);
         getContentPane().add(labloc);
+        lablap.setBounds(302, 57, 27, 16);
         getContentPane().add(lablap);
+        labrec.setBounds(302, 86, 89, 16);
         getContentPane().add(labrec);
+        terrain.setBounds(364, 83, 50, 22);
         
         getContentPane().add(terrain);
+        tempo.setBounds(354, 54, 50, 22);
         getContentPane().add(tempo);
+        location.setBounds(354, 54, 50, 22);
         getContentPane().add(location);
+        laps.setBounds(335, 54, 50, 22);
         getContentPane().add(laps);
+        recovery.setBounds(396, 83, 50, 22);
         getContentPane().add(recovery);
         
         labter.setVisible(false);
-        terrain.setVisible(false);
         labtem.setVisible(false);
-        tempo.setVisible(false);
         labloc.setVisible(false);
-        tempo.setVisible(false);
         lablap.setVisible(false);
-        laps.setVisible(false);
         labrec.setVisible(false);
+        
+        terrain.setVisible(false);
+        tempo.setVisible(false);
+        laps.setVisible(false);
         recovery.setVisible(false);
+        location.setVisible(false);
         
         addR.addActionListener(this);
         lookUpByDate.addActionListener(this);
         FindAllByDate.addActionListener(this);
         activitiesList.addActionListener(this);
-        
-        
-        add(outputArea);
+        outputArea.setBounds(55, 147, 391, 94);
         outputArea.setEditable(false);
-        setSize(720, 200);
+        
+        
+        getContentPane().add(outputArea);
+        setSize(525, 395);
         setVisible(true);
         blankDisplay();
 
@@ -210,6 +246,10 @@ public class TrainingRecordGUI extends JFrame implements ActionListener {
     		return "Incorect time format make sure all fields correct";
     	}
     	
+    	if(!myAthletes.checkValidEntry(d,m,y,n))
+    	{
+    		return "Entry has already been recorded";
+    	}
     	
         Entry e = new Entry(n, d, m, y, h, mm, s, km);
         myAthletes.addEntry(e);
