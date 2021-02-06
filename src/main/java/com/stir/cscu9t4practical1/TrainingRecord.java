@@ -43,7 +43,26 @@ public class TrainingRecord {
    } // lookupEntry
    
    
-   //UPDATE: used to check if entry is already input Challenge 4
+   public String lookUpByName (String n) 
+   {
+       ListIterator<Entry> iter = tr.listIterator();
+       String result = "";
+       while (iter.hasNext()) 
+       {
+    	  System.out.println(result);
+          Entry current = iter.next();
+          if (current.getName().equals(n)) 
+             result = result + "\n" + current.getEntry(); 
+          //UPDATE:if !result result = "No entries found"
+       }	
+       	  if (result == "")
+       	  {
+       		  result = "No entries found"; 
+       	  }
+       return result;
+   } // lookUpByName
+   
+
    //checking if entry is already existant in database
    public boolean checkValidEntry(int d, int m, int y, String n) 
    {
@@ -80,6 +99,25 @@ public class TrainingRecord {
    }
    // FindAllByDate
    
+   
+   //Delete searched record
+   public String deleteRecord(int d, int m, int y, String n)
+   {
+	   ListIterator<Entry> iter = tr.listIterator();
+       String status ="";
+       while (iter.hasNext()) 
+       {
+          Entry current = iter.next();   
+          
+          if (current.getDay()==d && current.getMonth()==m && current.getYear()==y && current.getName().equals(n)) 
+          {
+        	  tr.remove(current);
+        	  status = "Succesful deletion";
+        	  return status;
+          }  
+       }
+       return "Entry is not registered";
+   }
    
    // Count the number of entries
    public int getNumberOfEntries()

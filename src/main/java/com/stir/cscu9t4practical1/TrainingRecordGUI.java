@@ -34,9 +34,9 @@ public class TrainingRecordGUI extends JFrame implements ActionListener {
     private JLabel labdist = new JLabel(" Distance (km):");
     private JLabel labter = new JLabel(" Terrain:");
     private JLabel labtem = new JLabel(" Tempo:");
-    private JLabel labloc = new JLabel(" location:");
-    private JLabel lablap = new JLabel(" laps");
-    private JLabel labrec = new JLabel(" recovery(min):");
+    private JLabel labloc = new JLabel(" Location:");
+    private JLabel lablap = new JLabel(" Laps:");
+    private JLabel labrec = new JLabel(" Recovery(min):");
     
     private String[] Activities = {"SPRINT", "RUN", "CYCLE", "SWIM"};
     
@@ -45,7 +45,9 @@ public class TrainingRecordGUI extends JFrame implements ActionListener {
     private JButton addR = new JButton("Add");
     private JButton lookUpByDate = new JButton("Look Up");
     private JButton FindAllByDate = new JButton("Find all by date");
-
+    private JButton recordByName = new JButton("Find athelete records");
+    private JButton deleteRecord = new JButton("Delte item");
+    
     private TrainingRecord myAthletes = new TrainingRecord();
 
     private JTextArea outputArea = new JTextArea(5, 50);
@@ -102,6 +104,12 @@ public class TrainingRecordGUI extends JFrame implements ActionListener {
         FindAllByDate.setSize(119, 25);
         FindAllByDate.setLocation(327, 254);
         getContentPane().add(FindAllByDate);
+        recordByName.setSize(177, 22);
+        recordByName.setLocation(45, 296);
+        getContentPane().add(recordByName);
+        deleteRecord.setSize(90, 22);
+        deleteRecord.setLocation(327, 296);
+        getContentPane().add(deleteRecord);
         
         name.setEditable(true);
         day.setEditable(true);
@@ -114,16 +122,16 @@ public class TrainingRecordGUI extends JFrame implements ActionListener {
         activitiesList.setBounds(65, 10, 70, 22);
         
         getContentPane().add(activitiesList);
-        labter.setBounds(302, 86, 51, 16);
+        labter.setBounds(291, 86, 62, 16);
         
         getContentPane().add(labter);
-        labtem.setBounds(302, 57, 49, 16);
+        labtem.setBounds(281, 57, 70, 16);
         getContentPane().add(labtem);
-        labloc.setBounds(302, 57, 53, 16);
+        labloc.setBounds(267, 57, 88, 16);
         getContentPane().add(labloc);
-        lablap.setBounds(302, 57, 27, 16);
+        lablap.setBounds(281, 57, 48, 16);
         getContentPane().add(lablap);
-        labrec.setBounds(302, 86, 89, 16);
+        labrec.setBounds(281, 86, 110, 16);
         getContentPane().add(labrec);
         terrain.setBounds(364, 83, 50, 22);
         
@@ -140,19 +148,19 @@ public class TrainingRecordGUI extends JFrame implements ActionListener {
         labter.setVisible(false);
         labtem.setVisible(false);
         labloc.setVisible(false);
-        lablap.setVisible(false);
-        labrec.setVisible(false);
+
         
         terrain.setVisible(false);
         tempo.setVisible(false);
-        laps.setVisible(false);
-        recovery.setVisible(false);
         location.setVisible(false);
         
         addR.addActionListener(this);
         lookUpByDate.addActionListener(this);
         FindAllByDate.addActionListener(this);
         activitiesList.addActionListener(this);
+        recordByName.addActionListener(this);
+        deleteRecord.addActionListener(this);
+        
         outputArea.setBounds(55, 147, 391, 94);
         outputArea.setEditable(false);
         
@@ -178,12 +186,26 @@ public class TrainingRecordGUI extends JFrame implements ActionListener {
         
         if (event.getSource() == lookUpByDate) 
         {
+        	if(myAthletes.getNumberOfEntries() == 0)
+        	{
+        		message = "Action unavilable (No entries registered)";
+        	}
+        	else
+        	{
             message = lookupEntry();
+        	}
         }
         
         if (event.getSource() == FindAllByDate)
         {
+        	if(myAthletes.getNumberOfEntries() == 0)
+        	{
+        		message = "Action unavilable (No entries registered)";
+        	}
+        	else
+        	{
         	message = FindAllByDate();
+        	}
         }
         
         if (event.getSource() == activitiesList)
@@ -203,6 +225,30 @@ public class TrainingRecordGUI extends JFrame implements ActionListener {
         	if(activitiesList.getSelectedItem().equals("SWIM"))
         	{
         		selectItem("SWIM");
+        	}
+        }
+        
+        if (event.getSource() == recordByName)
+        {
+        	if(myAthletes.getNumberOfEntries() == 0)
+        	{
+        		message = "Action unavilable (No entries registered)";
+        	}
+        	else
+        	{
+        	message = FindByName();
+        	}
+        }
+        
+        if (event.getSource() == deleteRecord)
+        {
+        	if(myAthletes.getNumberOfEntries() == 0)
+        	{
+        		message = "Action unavilable (No entries registered)";
+        	}
+        	else
+        	{
+        	message = recDelete();
         	}
         }
         
@@ -316,7 +362,7 @@ public class TrainingRecordGUI extends JFrame implements ActionListener {
     			myAthletes.addEntry(e);
     		}
     	}
-
+    	
         return message;
     }
     
@@ -340,6 +386,11 @@ public class TrainingRecordGUI extends JFrame implements ActionListener {
         mins.setText("");
         secs.setText("");
         dist.setText("");
+        laps.setText("");
+        recovery.setText("");
+        location.setText("");
+        tempo.setText("");
+        terrain.setText("");
 
     }// blankDisplay
     // Fills the input fields on the display for testing purposes only
@@ -358,6 +409,23 @@ public class TrainingRecordGUI extends JFrame implements ActionListener {
     public String FindAllByDate()
     {
     	String message = myAthletes.AllEntries();
+    	return message;
+    }
+    
+    public String FindByName()
+    {
+    	String message = myAthletes.lookUpByName(name.getText());
+    	return message;
+    }
+    
+    private String recDelete()
+    {
+    	String n = name.getText();
+    	int m = Integer.parseInt(month.getText());
+        int d = Integer.parseInt(day.getText());
+        int y = Integer.parseInt(year.getText());
+        
+    	String message = myAthletes.deleteRecord(m, d, y, n);
     	return message;
     }
     
