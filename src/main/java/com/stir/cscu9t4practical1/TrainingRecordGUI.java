@@ -38,17 +38,13 @@ public class TrainingRecordGUI extends JFrame implements ActionListener {
     private JLabel lablap = new JLabel(" laps");
     private JLabel labrec = new JLabel(" recovery(min):");
     
+    private String[] Activities = {"SPRINT", "RUN", "CYCLE", "SWIM"};
+    
+    JComboBox activitiesList = new JComboBox(Activities);
+    
     private JButton addR = new JButton("Add");
     private JButton lookUpByDate = new JButton("Look Up");
     private JButton FindAllByDate = new JButton("Find all by date");
-    
-    final String sprint = "SPRINT";
-    final String run = "RUN";
-    final String swim = "SWIM";
-    final String cycle = "CYCLE";
-    
-    String[] activity = {sprint, run, swim, cycle};
-    private JComboBox activities = new JComboBox<String> (activity);
 
     private TrainingRecord myAthletes = new TrainingRecord();
 
@@ -64,78 +60,68 @@ public class TrainingRecordGUI extends JFrame implements ActionListener {
         setLayout(new FlowLayout());
         
         add(labac);
-        add(activities);
-        activities.addActionListener(this);
-        
         add(labn);
-        add(name);
-        name.setEditable(true);
-        
         add(labd);
-        add(day);
-        day.setEditable(true);
-        
         add(labm);
-        add(month);
-        month.setEditable(true);
-        
         add(laby);
-        add(year);
-        year.setEditable(true);
-        
         add(labh);
-        add(hours);
-        hours.setEditable(true);
-        
         add(labmm);
-        add(mins);
-        mins.setEditable(true);
-        
         add(labs);
-        add(secs);
-        secs.setEditable(true);
-        
         add(labdist);
+        
+        add(name);
+        add(day);
+        add(month);
+        add(year);
+        add(hours);
+        add(mins);
+        add(secs);
         add(dist);
+        add(addR);
+        add(lookUpByDate);
+        
+        name.setEditable(true);
+        day.setEditable(true);
+        month.setEditable(true);        
+        year.setEditable(true);
+        hours.setEditable(true);
+        mins.setEditable(true);
+        secs.setEditable(true);
         dist.setEditable(true);
         
-        add(addR);
-        addR.addActionListener(this);
+        add(activitiesList);
         
-        add(labter);
-        add(terrain);
+        getContentPane().add(labter);
+        getContentPane().add(labtem);
+        getContentPane().add(labloc);
+        getContentPane().add(lablap);
+        getContentPane().add(labrec);
+        
+        getContentPane().add(terrain);
+        getContentPane().add(tempo);
+        getContentPane().add(location);
+        getContentPane().add(laps);
+        getContentPane().add(recovery);
+        
         labter.setVisible(false);
         terrain.setVisible(false);
-        
-        add(labtem);
-        add(tempo);
         labtem.setVisible(false);
         tempo.setVisible(false);
-        
-        add(labloc);
-        add(location);
         labloc.setVisible(false);
         tempo.setVisible(false);
-        
-        add(lablap);
-        add(laps);
         lablap.setVisible(false);
         laps.setVisible(false);
-        
-        add(labrec);
-        add(recovery);
         labrec.setVisible(false);
         recovery.setVisible(false);
         
-        add(lookUpByDate);
+        addR.addActionListener(this);
         lookUpByDate.addActionListener(this);
-        
-        add(FindAllByDate);
         FindAllByDate.addActionListener(this);
+        activitiesList.addActionListener(this);
+        
         
         add(outputArea);
         outputArea.setEditable(false);
-        
         setSize(720, 200);
         setVisible(true);
         blankDisplay();
@@ -149,102 +135,89 @@ public class TrainingRecordGUI extends JFrame implements ActionListener {
     public void actionPerformed(ActionEvent event) 
     {
         String message = "";
-        if (event.getSource() == addR) {
+        if (event.getSource() == addR) 
+        {
             message = addEntry("generic");
         }
         
-        if (event.getSource() == lookUpByDate) {
+        if (event.getSource() == lookUpByDate) 
+        {
             message = lookupEntry();
         }
         
-        //Adding functionality to FindAllByDate
         if (event.getSource() == FindAllByDate)
         {
         	message = FindAllByDate();
         }
         
-        if (event.getSource() == activities)
+        if (event.getSource() == activitiesList)
         {
-        	String selected = (String) activities.getSelectedItem();
+        	if(activitiesList.getSelectedItem().equals("SPRINT"))
         	{
-        		if(selected.equals("SPRINT"))
-        		{
-        			choice(true,false,false,false);
-        		}
-        		if(selected.equals("RUN"))
-        		{
-        			choice(false,true,false,false);
-        		}
-        		if(selected.equals("SWIM"))
-        		{
-        			choice(false,false,true,false);
-        		}
-        		if(selected.equals("CYCLE"))
-        		{
-        			choice(false,false,false,true);
-        		}
+        		selectItem("SPRINT");
+        	}
+        	if(activitiesList.getSelectedItem().equals("RUN"))
+        	{
+        		selectItem("RUN");
+        	}
+        	if(activitiesList.getSelectedItem().equals("CYCLE"))
+        	{
+        		selectItem("CYCLE");
+        	}
+        	if(activitiesList.getSelectedItem().equals("SWIM"))
+        	{
+        		selectItem("SWIM");
         	}
         }
         
         outputArea.setText(message);
         blankDisplay();
-    } 
-    // actionPerformed
+        
+    } // actionPerformed
 
-    public Boolean isValidNumber(String temp)
+    public String addEntry(String what) 
     {
-    	boolean num = true;
-    	try {
-            Double tempNum = Double.parseDouble(temp);
-        } catch (NumberFormatException e) {
-            num = false;
-        }
-    	return num;
-    }
-    
-    //UPDATE: 
-    public String addEntry(String what) {
-        String message = "Record added\n";
+    	String message = "Record added\n";
         System.out.println("Adding "+what+" entry to the records");
+        
+        String sport = (String) activitiesList.getSelectedItem();
+        
         String n = name.getText();
-        int m;
-        int d;
-        int y;
-        float km;
-        int h;
-        int mm;
-        int s;
-        if(isValidNumber(month.getText()) && isValidNumber(day.getText()) && isValidNumber(year.getText()) 
-        		&& isValidNumber(dist.getText()) && isValidNumber(dist.getText()) 
-        		&& isValidNumber(hours.getText()) && isValidNumber(mins.getText()) 
-        		&& isValidNumber(secs.getText()))
-        {
-        	m = Integer.parseInt(month.getText());
-            d = Integer.parseInt(day.getText());
-            y = Integer.parseInt(year.getText());
-            km = java.lang.Float.parseFloat(dist.getText());
-            h = Integer.parseInt(hours.getText());
-            mm = Integer.parseInt(mins.getText());
-            s = Integer.parseInt(secs.getText());
-            
-            if(myAthletes.checkValidEntry(d,m,y,n))
-            {
-            	Entry e = new Entry(n, d, m, y, h, mm, s, km);
-            	myAthletes.addEntry(e);
-            }
-            else 
-            {
-            	message = "this entry has already been recorded";
-            }
-        }
-        else
-        {
-        	message = "invalid details date,time or distance format please use valid numbers";
-        }
+    	int d = tryParseInt(day.getText());
+    	int m = tryParseInt(month.getText());
+    	int y = tryParseInt(year.getText());
+    	float km = tryParseFloat(dist.getText());
+    	int h = tryParseInt(hours.getText());
+    	int mm = tryParseInt(mins.getText());
+    	int s = tryParseInt(secs.getText());
+    	
+    	if(n.isEmpty())
+    	{
+    		return "Name field empty";
+    	}
+    	if(d == -1 || m == -1 || y == -1)
+    	{
+    		return "Incorect date format please use numbers";
+    	}
+    	
+    	if(km == -1)
+    	{
+    		return "Distance value invalid";
+    	}
+    	
+    	if(h == -1 || mm == -1 || s == -1)
+    	{
+    		return "Incorect time format make sure all fields correct";
+    	}
+    	
+    	
+        Entry e = new Entry(n, d, m, y, h, mm, s, km);
+        myAthletes.addEntry(e);
         return message;
     }
     
-    public String lookupEntry() {
+    public String lookupEntry() 
+    {
         int m = Integer.parseInt(month.getText());
         int d = Integer.parseInt(day.getText());
         int y = Integer.parseInt(year.getText());
@@ -252,16 +225,9 @@ public class TrainingRecordGUI extends JFrame implements ActionListener {
         String message = myAthletes.lookupEntry(d, m, y);
         return message;
     }
-    
-    //UPDATE: find all by date functionality
-    public String FindAllByDate() 
-    {
-    	String message = myAthletes.AllEntries();
-    	return message;
-    }
-    
 
-    public void blankDisplay() {
+    public void blankDisplay() 
+    {
         name.setText("");
         day.setText("");
         month.setText("");
@@ -273,7 +239,8 @@ public class TrainingRecordGUI extends JFrame implements ActionListener {
 
     }// blankDisplay
     // Fills the input fields on the display for testing purposes only
-    public void fillDisplay(Entry ent) {
+    public void fillDisplay(Entry ent) 
+    {
         name.setText(ent.getName());
         day.setText(String.valueOf(ent.getDay()));
         month.setText(String.valueOf(ent.getMonth()));
@@ -284,61 +251,84 @@ public class TrainingRecordGUI extends JFrame implements ActionListener {
         dist.setText(String.valueOf(ent.getDistance()));
     }
     
-    public void choice(boolean sprint, boolean run, boolean swim, boolean cycle)
+    public String FindAllByDate()
     {
-    	if(sprint)
+    	String message = myAthletes.AllEntries();
+    	return message;
+    }
+    
+    public static Integer tryParseInt(String n)
+    {
+    	try
     	{
+    		return Integer.parseInt(n);
+    	}
+    	catch(NumberFormatException ex)
+    	{
+    		return -1;
+    	}
+    }
+    
+    public static Float tryParseFloat(String n)
+    {
+    	try
+    	{
+    		return Float.parseFloat(n);
+    	}
+    	catch(NumberFormatException ex)
+    	{
+    		return (float) -1;
+    	}
+    }
+    
+    public void selectItem(String a)
+    {
+    	if(a.equals("SPRINT"))
+    	{
+    		hideAll();
     		lablap.setVisible(true);
             laps.setVisible(true);
             labrec.setVisible(true);
             recovery.setVisible(true);
-            labtem.setVisible(false);
-            tempo.setVisible(false);
-            labter.setVisible(false);
-            terrain.setVisible(false);
-            labloc.setVisible(false);
-            location.setVisible(false);
     	}
-    	if(run)
+    	
+    	if(a.equals("RUN"))
     	{
+    		hideAll();
     		lablap.setVisible(true);
-            laps.setVisible(true);
-            labrec.setVisible(false);
-            recovery.setVisible(false);
-            labtem.setVisible(false);
-            tempo.setVisible(false);
-            labter.setVisible(false);
-            terrain.setVisible(false);
-            labloc.setVisible(false);
-            location.setVisible(false);
+    		laps.setVisible(true);
     	}
-    	if(swim)
+    	
+    	if(a.equals("CYCLE"))
     	{
-    		lablap.setVisible(false);
-            laps.setVisible(false);
-            labrec.setVisible(false);
-            recovery.setVisible(false);
-            labtem.setVisible(false);
-            tempo.setVisible(false);
-            labter.setVisible(false);
-            terrain.setVisible(false);
-            labloc.setVisible(true);
-            location.setVisible(true);
-    	}
-    	if(cycle)
-    	{
-    		lablap.setVisible(false);
-            laps.setVisible(false);
-            labrec.setVisible(false);
-            recovery.setVisible(false);
-            labtem.setVisible(true);
+    		hideAll();
+    		labtem.setVisible(true);
             tempo.setVisible(true);
             labter.setVisible(true);
             terrain.setVisible(true);
-            labloc.setVisible(false);
-            location.setVisible(false);
+    	}
+    	
+    	if(a.equals("SWIM"))
+    	{
+    		hideAll();
+    		labloc.setVisible(true);
+            location.setVisible(true);
     	}
     }
     
+    public void hideAll()
+    {
+    	lablap.setVisible(false);
+        laps.setVisible(false);
+        labrec.setVisible(false);
+        recovery.setVisible(false);
+        labtem.setVisible(false);
+        tempo.setVisible(false);
+        labter.setVisible(false);
+        terrain.setVisible(false);
+        labloc.setVisible(false);
+        location.setVisible(false);
+    }
+
 } // TrainingRecordGUI
 

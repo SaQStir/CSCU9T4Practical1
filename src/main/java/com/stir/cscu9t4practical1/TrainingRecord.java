@@ -10,17 +10,21 @@ import java.util.*;
 public class TrainingRecord {
     private List<Entry> tr;
     
+    
     public TrainingRecord() {
         tr = new ArrayList<Entry>();
     } //constructor
+   
     
     // add a record to the list
    public void addEntry(Entry e){
        tr.add(e);    
    } // addClass
    
+   
    // look up the entry of a given day and month
-   public String lookupEntry (int d, int m, int y) {
+   public String lookupEntry (int d, int m, int y) 
+   {
        ListIterator<Entry> iter = tr.listIterator();
        String result = "";
        while (iter.hasNext()) 
@@ -38,9 +42,11 @@ public class TrainingRecord {
        return result;
    } // lookupEntry
    
+   
    //UPDATE: used to check if entry is already input Challenge 4
    //checking if entry is already existant in database
-   public boolean checkValidEntry(int d, int m, int y, String n) {
+   public boolean checkValidEntry(int d, int m, int y, String n) 
+   {
        ListIterator<Entry> iter = tr.listIterator();
        boolean result = true;
        while (iter.hasNext()) 
@@ -54,7 +60,8 @@ public class TrainingRecord {
        }
        return result;
    } // checkValidEntry
-       
+     
+   
     //UPDATE:return all previously entered entries
    public String AllEntries()
    {
@@ -73,12 +80,17 @@ public class TrainingRecord {
    }
    // FindAllByDate
    
+   
    // Count the number of entries
-   public int getNumberOfEntries(){
+   public int getNumberOfEntries()
+   {
        return tr.size();
    }
+   
+   
    // Clear all entries
-   public void clearAllEntries(){
+   public void clearAllEntries()
+   {
        tr.clear();
    }
    
