@@ -31,7 +31,7 @@ public class CycleEntry extends Entry
 		String result = getName()+" cycled " + getDistance() + " km in "
 	             +getHour()+":"+getMin()+":"+ getSec() + " on "
 	             +getDay()+"/"+getMonth()+"/"+getYear()+"\n" 
-	             + "on " + getTerrain()+" at "+ getTempo()+"\n";
+	             + "on " + getTerrain()+" type of terrain at a "+ getTempo()+" tempo";
 	   return result;
 	}
 	//getEntry

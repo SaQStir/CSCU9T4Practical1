@@ -250,9 +250,73 @@ public class TrainingRecordGUI extends JFrame implements ActionListener {
     	{
     		return "Entry has already been recorded";
     	}
+
+    	if(sport.equals("SPRINT"))
+    	{
+    		int r = tryParseInt(recovery.getText());
+    		int l = tryParseInt(laps.getText());
+    		
+    		if(r == -1 || l == -1)
+    		{
+    			return "False input for sprint details";
+    		}
+    		
+    		else
+    		{
+    			Entry e = new SprintEntry(n ,d ,m ,y ,h ,mm ,s ,km ,r ,l);
+    			myAthletes.addEntry(e);
+    		}
+    	}
+        
+    	if(sport.equals("RUN"))
+    	{
+    		int l = tryParseInt(laps.getText());
+    		
+    		if(l == -1)
+    		{
+    			return "False input for run details";
+    		}
+    		
+    		else
+    		{
+    			Entry e = new RunEntry(n ,d ,m ,y ,h ,mm ,s ,km ,l);
+    			myAthletes.addEntry(e);
+    		}
+    	}
     	
-        Entry e = new Entry(n, d, m, y, h, mm, s, km);
-        myAthletes.addEntry(e);
+    	if(sport.equals("CYCLE"))
+    	{
+    		String ter = terrain.getText();
+    		String tem = tempo.getText();
+    		
+    		if(ter.isEmpty() || tem.isEmpty())
+    		{
+    			return "Cycle details are empty";
+    		}
+    		
+    		else
+    		{
+    			Entry e = new CycleEntry(n ,d ,m ,y ,h ,mm ,s ,km, ter, tem);
+    			myAthletes.addEntry(e);
+    		}
+    	}
+    	
+    	if(sport.equals("SWIM"))
+    	{
+    		String l = location.getText();
+    		
+    		if(l.isEmpty())
+    		{
+    			return "swimming detail is empty";
+    		}
+    		
+    		else
+    		{
+    			Entry e = new SwimEntry(n ,d ,m ,y ,h ,mm ,s ,km, l);
+    			myAthletes.addEntry(e);
+    		}
+    	}
+
         return message;
     }
     

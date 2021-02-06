@@ -21,7 +21,7 @@ public class SwimEntry extends Entry
 		String result = getName()+" swam " + getDistance() + " km in "
 	             +getHour()+":"+getMin()+":"+ getSec() + " on "
 	             +getDay()+"/"+getMonth()+"/"+getYear()+"\n" 
-	             +getLocation()+"\n";
+	             + "at " + getLocation()+" location";
 	   return result;
 	}
 }
