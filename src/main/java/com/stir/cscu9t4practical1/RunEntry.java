@@ -21,7 +21,7 @@ public class RunEntry extends Entry
 	
 	public String getEntry()
 	{
-		String result = getName()+" ran " + getDistance() + "km *" + getLaps()
+		String result = getName()+" ran " + getDistance() + "km *" + getLaps() + " in"
 	             +getHour()+":"+getMin()+":"+ getSec() + " on "
 	             +getDay()+"/"+getMonth()+"/"+getYear()+"\n"; 
 

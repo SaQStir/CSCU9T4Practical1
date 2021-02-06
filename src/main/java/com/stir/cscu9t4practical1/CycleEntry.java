@@ -12,23 +12,27 @@ public class CycleEntry extends Entry
 		this.terrain = ter;
 		this.tempo = tem;
 	}
+	//constructor 
 	
 	public String getTerrain()
 	{
 		return terrain;
 	}
+	//getTerrain
 	
 	public String getTempo()
 	{
 		return tempo;
 	}
+	//getTempo
 	
 	public String getEntry()
 	{
-		String result = getName()+" ran " + getDistance() + " km in "
+		String result = getName()+" cycled " + getDistance() + " km in "
 	             +getHour()+":"+getMin()+":"+ getSec() + " on "
 	             +getDay()+"/"+getMonth()+"/"+getYear()+"\n" 
-	             +getTerrain()+"\n" + "/"+ getTempo()+"\n";
+	             + "on " + getTerrain()+" at "+ getTempo()+"\n";
 	   return result;
 	}
+	//getEntry
 }
